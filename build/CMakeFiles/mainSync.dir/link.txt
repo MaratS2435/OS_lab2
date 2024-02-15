@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/mainSync.dir/mainSync.cpp.o -o mainSync  -lm 
