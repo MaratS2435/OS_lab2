@@ -1,13 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
-project(lab3_os)
+cmake_minimum_required(VERSION 3.17)
+project(os_lab_4)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(parent parent.cpp)
-add_executable(child1 child1.cpp)
-add_executable(child2 child2.cpp)
+add_library(_first SHARED realization_1.cpp)
+add_library(_second SHARED realization_2.cpp)
 
-target_link_libraries(parent m)
-target_link_libraries(child1 m)
-target_link_libraries(child2 m)
+add_executable(static_main Static_Main.cpp)
+add_executable(dynamic_main Dynamic_Main.cpp)
+
+target_link_libraries(static_main PRIVATE _first)
