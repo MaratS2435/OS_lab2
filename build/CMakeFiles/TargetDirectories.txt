@@ -1,4 +1,0 @@
-/home/marat/VUZ/OS/OS_lab2/build/CMakeFiles/mainAsync.dir
-/home/marat/VUZ/OS/OS_lab2/build/CMakeFiles/mainSync.dir
-/home/marat/VUZ/OS/OS_lab2/build/CMakeFiles/edit_cache.dir
-/home/marat/VUZ/OS/OS_lab2/build/CMakeFiles/rebuild_cache.dir
