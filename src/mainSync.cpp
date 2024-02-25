@@ -64,14 +64,14 @@ int main() {
     int num_threads;
 
     std::cout << "Enter the number of points: " << std::endl;
-    //std::cin >> point_count;
-    point_count = 1000;
+    std::cin >> point_count;
+    //point_count = 10;
     std::cout << "Enter the number of clusters: " << std::endl;
     std::cin >> clustersCount;
     //std::cout << "Enter the number of threads: " << std::endl;
     //std::cin >> num_threads;
 
-    //std::cout << "Enter the coordinates of the points (x y):\n" << std::endl;
+    std::cout << "Enter the coordinates of the points (x y):\n" << std::endl;
     Point temp;
     for (int i = 0; i < point_count; ++i) {
         //std::cin >> temp.x >> temp.y;
@@ -85,12 +85,12 @@ int main() {
     std::vector<std::vector<Point>> result = kMeansClustering(data, clustersCount, maxIterations);
 
     auto end = std::chrono::steady_clock::now();
-    std::cout << "milliseconds: ";
-    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
     for (int i = 0; i < clustersCount; ++i) {
         for (size_t j = 0; j < result[i].size(); ++j) {
             std::cout << i << ' ' << result[i][j].x << ' ' << result[i][j].y  << std::endl;
         }
     }
+    std::cout << "milliseconds: ";
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 }
