@@ -113,6 +113,11 @@
     "stop_token": "cpp",
     "streambuf": "cpp",
     "thread": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "cstring": "cpp",
+    "map": "cpp",
+    "optional": "cpp",
+    "iomanip": "cpp",
+    "cinttypes": "cpp"
   }
 }
