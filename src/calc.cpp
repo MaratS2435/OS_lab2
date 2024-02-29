@@ -4,13 +4,14 @@ int main(int argc, char* argv[]) {
     int id = std::stoi(std::string(argv[1]));
     std::map<std::string, int> stor;
 
-    void* context = zmq_ctx_new();
-    std::pair<void*, void*> children;
-    std::pair<int, int> child_ids;
-    void* parent_socket = zmq_socket(context,ZMQ_PAIR);
+    void* parent_context = zmq_ctx_new();
+    void* parent_socket = zmq_socket(parent_context,ZMQ_PAIR);
 
-    int rc = zmq_bind(parent_socket, ("tcp://localhost:" + std::to_string(PORT_BASE + id)).c_str());
+    int rc = zmq_connect(parent_socket, ("tcp://localhost:" + std::to_string(PORT_BASE + id)).c_str());
     assert (rc == 0);
+
+    std::pair<void*, void*> left, right; // <context, socket>
+    std::pair<int, int> child_ids;
 
     while(1) {
         std::string input;
@@ -25,7 +26,7 @@ int main(int argc, char* argv[]) {
         std::string command = tokens[0];
         if (command == "create") {
             int new_id = std::stoi(tokens[1]);
-            create(children, child_ids, context, new_id, id);
+            create(left, right, child_ids, new_id, id);
         }
         if (command == "exec") {
             int node_id = std::stoi(tokens[1]);
@@ -47,38 +48,52 @@ int main(int argc, char* argv[]) {
                         stor[name] = val;
                         std::cout << "OK:" << id << std::endl;
                     } else {
+                        stor[name] = val;
                         std::cout << "OK:" << id << " '" << name << "' is changed to " << val << std::endl;
                     }
                 }
-                
-                break;
             }
             if (node_id < id) {
-                send(children.first, input);
-            } else {
-                send(children.second, input);
+                send(left.second, input, 1);
+            }
+            if (node_id > id){
+                send(right.second, input, 1);
             }
         }
         if (command == "ping") {
             std::string msg {"good"};
-            send(parent_socket, msg);
+            send(parent_socket, msg, 0);
         }
         if (command == "pingall") {
-            ping(children, child_ids);
-            send(children.first, input);
-            send(children.second, input);
+            ping(left, right,  child_ids);
+            if (left.second != nullptr) {
+                send(left.second, input, 0);
+            }
+            if (right.second != nullptr) {
+                send(right.second, input, 0);
+            }
         }
         if (command == "end") {
-            send(children.first, input);
-            send(children.second, input);
+            if (left.second != nullptr) {
+                send(left.second, input, 1);
+            }
+            if (right.second != nullptr) {
+                send(right.second, input, 1);
+            }
             break;
         }
     }
 
     sleep(5);
-    zmq_close(children.first);
-    zmq_close(children.second);
+    if (left.second != nullptr) {
+        zmq_close(left.second);
+        zmq_ctx_destroy(left.first);
+    }
+    if (right.second != nullptr) {
+        zmq_close(right.second);
+        zmq_ctx_destroy(left.first);
+    }
     zmq_close(parent_socket);
-    zmq_ctx_destroy(context);
+    zmq_ctx_destroy(parent_context);
     return 0;
 }

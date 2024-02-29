@@ -1,11 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
-project(lab2_os)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(YourProjectName)
 
-add_executable(mainAsync mainAsync.cpp)
-add_executable(mainSync mainSync.cpp)
+# Укажите исходные файлы вашего проекта
+file(GLOB SOURCES "src/*.cpp")
 
-target_link_libraries(mainAsync m)
-target_link_libraries(mainSync m)
+# Установка переменной CMAKE_PREFIX_PATH
+set(CMAKE_PREFIX_PATH "/usr/local;/usr;/usr/x86_64-linux-gnu;/usr/lib/x86_64-linux-gnu")
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ZMQ REQUIRED libzmq)
+
+# Укажите, в какие исполняемые файлы должны быть скомпилированы ваши исходные файлы
+add_executable(control src/control.cpp)
+add_executable(calc src/calc.cpp)
+
+# Линковка библиотек к исполняемым файлам
+target_link_libraries(control PRIVATE ${ZMQ_LIBRARIES})
+target_link_libraries(calc PRIVATE ${ZMQ_LIBRARIES})
