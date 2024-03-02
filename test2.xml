@@ -1,0 +1,18 @@
+<config> 
+    <sec>   
+        <name value="list.o"/>
+        <command value="gcc -c ./test/list.c"/>
+    </sec>
+    <sec>
+        <name value="main.o"/>
+        <command value="gcc -c ./test/main.c"/>
+    </sec>
+    <sec>
+        <name value="a.out"/>
+        <command value="gcc main.o list.o -o main"/>
+        <deps>
+            <dep value="list.o"/>
+            <dep value="main.o"/>
+        </deps>
+    </sec>
+</config>

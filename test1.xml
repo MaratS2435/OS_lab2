@@ -1,0 +1,37 @@
+<config>
+    <sec>
+        <name value="b.o"/>
+        <command value="g++ -c ./test/b.cpp"/>
+    </sec>
+    <sec>
+        <name value="c.o"/>
+        <command value="g++ -c ./test/c.cpp"/>
+    </sec>
+    <sec>
+        <name value="d.o"/>
+        <command value="g++ -c ./test/d.cpp"/>
+    </sec>
+    <sec>
+        <name value="e.o"/>
+        <command value="ld -relocatable c.o b.o -o e.o"/>
+        <deps>
+            <dep value="b.o"/>
+            <dep value="c.o"/>
+        </deps>
+    </sec>
+    <sec>
+        <name value="f.o"/>
+        <command value="ld -relocatable d.o -o f.o"/>
+        <deps>
+           <dep value="d.o"/>      
+        </deps>
+    </sec>
+    <sec>
+        <name value="a.out"/>
+        <command value="g++ -o a.out b.o c.o d.o"/>
+        <deps>
+            <dep value="e.o"/>
+            <dep value="f.o"/>
+        </deps>
+    </sec>
+</config>
