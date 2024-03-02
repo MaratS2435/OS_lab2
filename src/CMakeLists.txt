@@ -1,13 +1,17 @@
-cmake_minimum_required(VERSION 3.17)
-project(os_lab_4)
+cmake_minimum_required(VERSION 3.10)
+project(kp)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 
-add_library(_first SHARED realization_1.cpp)
-add_library(_second SHARED realization_2.cpp)
+set(SOURCES 
+    main.cpp
+    parser.cpp
+    jobs.cpp
+    parser.h
+    node.h
+    jobs.h
+)
 
-add_executable(static_main Static_Main.cpp)
-add_executable(dynamic_main Dynamic_Main.cpp)
-
-target_link_libraries(static_main PRIVATE _first)
+add_executable(main ${SOURCES})

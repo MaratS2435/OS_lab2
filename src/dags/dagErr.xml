@@ -1,0 +1,24 @@
+<dag>
+  <nodes>
+    <node id="1">AAA</node>
+    <node id="2">BBB</node>
+    <node id="3">CCC</node>
+    <node id="4">DDD</node>
+    <node id="5">EEE</node>
+    <node id="6">FFF</node>
+  </nodes>
+  <connections>
+    <connection from="1" to="2"></connection>
+    <connection from="2" to="3"></connection>
+    <connection from="4" to="5"></connection>
+    <connection from="5" to="3"></connection>
+  </connections>
+  <start_nodes>
+    <start_node>1</start_node>
+    <start_node>4</start_node>
+  </start_nodes>
+  <end_nodes>
+    <end_node>6</end_node>
+    <end_node>3</end_node>
+  </end_nodes>
+</dag>
